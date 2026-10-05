@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ricardo Seidel em Grajaú – Votação 2026</title>
+<meta name="description" content="Onde Ricardo Seidel (55123), candidato a Deputado Estadual, recebeu votos em Grajaú (MA) no 1º turno de 2026: bairros, povoados, aldeias e locais de votação.">
+<meta property="og:title" content="Ricardo Seidel em Grajaú – Votação 2026">
+<meta property="og:description" content="200 votos em Grajaú. Veja bairro por bairro e escola por escola.">
+<meta property="og:image" content="ricardo-seidel.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%23233089'/><text x='16' y='22' font-family='Arial' font-weight='700' font-size='13' fill='white' text-anchor='middle'>55</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+:root{
+  --navy:#1d2878; --navy-2:#27359b; --red:#d9262c; --sky:#e9eef9;
+  --ink:#16193a; --muted:#5b6080; --line:#d9ddeb; --paper:#ffffff; --bg:#f5f7fc;
+  --green:#3aa637; --yellow:#f6c21c;
+  --display:"Barlow Condensed",Arial Narrow,Arial,sans-serif;
+  --body:"Barlow",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--navy-2)}
+:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.stripe{height:6px;background:linear-gradient(90deg,var(--navy-2) 0 40%,var(--green) 40% 70%,var(--yellow) 70% 100%)}
+
+/* HERO */
+.hero{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:90px;background:linear-gradient(180deg,transparent,rgba(0,0,0,.18))}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:32px;align-items:end;min-height:520px}
+.hero-text{padding:56px 0 64px;position:relative;z-index:2}
+.srclink{color:#fff;text-decoration:underline;text-underline-offset:3px;font-weight:600}
+.place{font-weight:600;color:#c9d2ff;margin:0 0 18px;font-size:16px}
+.big{font-family:var(--display);font-weight:800;font-size:clamp(120px,22vw,232px);line-height:.82;margin:0;letter-spacing:-2px}
+.big small{display:block;font-size:.26em;letter-spacing:0;font-weight:700;margin-top:10px;line-height:1}
+.name{font-family:var(--display);font-weight:700;font-size:clamp(30px,4.2vw,46px);line-height:1.05;margin:28px 0 6px}
+.cargo{display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:17px;color:#dfe4ff}
+.num{background:#fff;color:var(--navy);font-family:var(--display);font-weight:800;font-size:28px;padding:2px 14px;border-radius:6px;line-height:1.2}
+.hero-photo{align-self:end;position:relative;z-index:1;display:flex;justify-content:center;padding:40px 0 56px}
+.hero-photo img{display:block;width:100%;max-width:360px;height:auto;border-radius:14px;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+
+/* FACTS */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;background:var(--paper);border-radius:14px;margin-top:-34px;position:relative;z-index:3;box-shadow:0 12px 30px rgba(29,40,120,.10);overflow:hidden}
+.fact{padding:22px 22px 20px;border-right:1px solid var(--line)}
+.fact:last-child{border-right:0}
+.fact b{display:block;font-family:var(--display);font-size:40px;line-height:1;color:var(--navy);font-weight:800}
+.fact span{display:block;color:var(--muted);font-size:15px;margin-top:6px;line-height:1.35}
+
+section{padding:64px 0 8px}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(30px,3.6vw,40px);line-height:1.05;margin:0 0 8px;color:var(--navy)}
+.lead{color:var(--muted);max-width:66ch;margin:0 0 26px}
+
+/* BAIRROS CHART */
+.card{background:var(--paper);border-radius:14px;padding:26px;border:1px solid var(--line)}
+.toggle{display:inline-flex;background:var(--sky);border-radius:999px;padding:4px;margin-bottom:22px}
+.toggle button{border:0;background:transparent;font:600 15px var(--body);color:var(--navy);padding:8px 16px;border-radius:999px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.bars{display:grid;gap:9px}
+.bar{display:grid;grid-template-columns:190px 1fr 74px;align-items:center;gap:14px;font-size:16px}
+.bar .lbl{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar .lbl em{font-style:normal;color:var(--muted);font-size:13px;margin-left:6px}
+.track{height:22px;background:var(--sky);border-radius:4px;overflow:hidden}
+.fill{height:100%;background:var(--navy-2);border-radius:4px;width:0;transition:width .7s cubic-bezier(.2,.7,.2,1)}
+.bar.top .fill{background:var(--red)}
+.bar .val{text-align:right;font-family:var(--display);font-weight:700;font-size:21px;font-variant-numeric:tabular-nums}
+.zero{margin-top:22px;color:var(--muted);font-size:15px}
+@media (prefers-reduced-motion:reduce){.fill{transition:none}}
+
+/* SPLIT */
+.split{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.zone{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:22px}
+.zone h3{margin:0;font-size:17px;font-weight:600;color:var(--muted)}
+.zone .v{font-family:var(--display);font-weight:800;font-size:56px;line-height:1;color:var(--navy);margin:8px 0 4px}
+.zone p{margin:0;color:var(--muted);font-size:15px}
+.zone .meter{height:8px;background:var(--sky);border-radius:4px;margin-top:14px;overflow:hidden}
+.zone .meter i{display:block;height:100%;background:var(--red)}
+
+/* MAP */
+#map{height:520px;border-radius:14px;border:1px solid var(--line);background:#dfe5f2}
+.map-note{font-size:14px;color:var(--muted);margin-top:10px}
+.leaflet-popup-content{font-family:var(--body);font-size:14px;line-height:1.4}
+.leaflet-popup-content b{color:var(--navy)}
+
+/* TABLE */
+.tools{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.tools input,.tools select{font:500 16px var(--body);padding:10px 14px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);min-width:220px}
+.tablebox{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:14px}
+table{border-collapse:collapse;width:100%;font-size:15.5px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+th{background:var(--sky);color:var(--navy);font-weight:600;position:sticky;top:0;cursor:pointer;user-select:none}
+th[aria-sort]::after{content:" ▾";font-size:12px}
+th[aria-sort="ascending"]::after{content:" ▴"}
+tbody tr:hover{background:#fafbff}
+td .tag{display:inline-block;font-size:12.5px;padding:2px 8px;border-radius:999px;background:var(--sky);color:var(--navy);font-weight:600}
+td .tag.p{background:#eaf6e9;color:#22661f}
+td .tag.a{background:#fff4d6;color:#7a5600}
+td.strong{font-weight:600;color:var(--navy)}
+.count{color:var(--muted);font-size:14px}
+
+.topnav{background:#141c5c;color:#fff;position:sticky;top:0;z-index:1000}
+.topnav-in{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:56px;flex-wrap:wrap}
+.brand{font-family:var(--display);font-weight:700;font-size:21px}
+.brand span{font-family:var(--body);font-weight:500;font-size:14px;color:#b9c2f5;margin-left:8px}
+.tabs{display:flex;gap:6px}
+.tabs a{color:#dfe4ff;text-decoration:none;font-weight:600;font-size:15px;padding:8px 14px;border-radius:999px}
+.tabs a[aria-selected="true"]{background:#fff;color:var(--navy)}
+.ghead{background:var(--navy);color:#fff;padding:52px 0 72px}
+.gtitle{font-family:var(--display);font-weight:800;font-size:clamp(38px,6vw,68px);line-height:.98;margin:0 0 14px;max-width:16ch}
+.gsub{color:#dfe4ff;max-width:60ch;margin:0}
+.tablebox.tall{max-height:620px;overflow:auto}
+tr.me td{background:#fff3f3}
+tr.me td:first-child{box-shadow:inset 4px 0 0 var(--red)}
+.st{font-size:12.5px;font-weight:600;padding:2px 8px;border-radius:999px;background:#eef0f6;color:#4a4f6e}
+.st.e{background:#e3f4e2;color:#1f6a1c}
+td small{color:var(--muted);font-size:13px}
+.bar.me .fill{background:var(--red)}
+.bar.me .lbl{font-weight:600;color:var(--red)}
+footer{margin-top:72px;background:var(--navy);color:#cfd6ff;padding:36px 0 44px;font-size:15px}
+footer p{margin:0 0 8px;max-width:80ch}
+footer b{color:#fff}
+footer a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+.fh{color:#fff;margin-bottom:16px}
+.src{margin:0 0 24px;padding-left:22px;max-width:86ch}
+.src li{margin-bottom:12px}
+.upd{color:#9fa9e6;font-size:14px;margin-top:16px}
+
+@media (max-width:860px){
+  .brand span{display:none}
+  .tabs a{padding:7px 11px;font-size:14px}
+  .hero-grid{grid-template-columns:1fr;min-height:0}
+  .hero-text{padding:40px 0 8px}
+  .hero-photo{padding:8px 0 56px}.hero-photo img{max-width:280px}
+  .facts{grid-template-columns:1fr 1fr}
+  .fact:nth-child(2){border-right:0}
+  .fact:nth-child(-n+2){border-bottom:1px solid var(--line)}
+  .split{grid-template-columns:1fr}
+  .bar{grid-template-columns:120px 1fr 56px;gap:10px;font-size:15px}
+  .bar .lbl em{display:none}
+  #map{height:420px}
+}
+</style>
+</head>
+<body>
+<div class="stripe" aria-hidden="true"></div>
+<nav class="topnav" aria-label="Painéis">
+  <div class="wrap topnav-in">
+    <span class="brand">Grajaú 2026 <span>Deputado Estadual</span></span>
+    <div class="tabs" role="tablist">
+      <a href="#seidel" role="tab" id="tab-seidel" aria-controls="p-seidel">Ricardo Seidel</a>
+      <a href="#geral" role="tab" id="tab-geral" aria-controls="p-geral">Todos os candidatos</a>
+    </div>
+  </div>
+</nav>
+<div id="p-seidel" role="tabpanel" aria-labelledby="tab-seidel">
+
+<header class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-text">
+      <p class="place">Grajaú, Maranhão. Eleições 2026, 1º turno. <a href="#fontes" class="srclink">Fonte: TSE</a></p>
+      <p class="big" id="bigTotal">200<small>votos em Grajaú</small></p>
+      <h1 class="name">Ricardo Seidel</h1>
+      <div class="cargo"><span class="num">55123</span><span>Deputado Estadual, PSD</span></div>
+    </div>
+    <div class="hero-photo">
+      <img src="ricardo-seidel.jpg" alt="Ricardo Seidel, candidato a Deputado Estadual, número 55123" width="387" height="557">
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="facts" id="facts"></div>
+
+  <section id="bairros" aria-labelledby="h-bairros">
+    <h2 id="h-bairros">Bairro por bairro</h2>
+    <p class="lead">Votos de Ricardo Seidel em cada bairro da sede e em cada povoado ou aldeia onde ele foi votado. Troque para percentual para ver onde o peso dele foi maior, mesmo em lugares com menos eleitores.</p>
+    <div class="card">
+      <div class="toggle" role="group" aria-label="Mostrar por">
+        <button type="button" data-mode="votos" aria-pressed="true">Votos</button>
+        <button type="button" data-mode="pct" aria-pressed="false">% dos válidos</button>
+      </div>
+      <div class="bars" id="bars"></div>
+      <p class="zero" id="zeroList"></p>
+    </div>
+  </section>
+
+  <section id="regioes" aria-labelledby="h-reg">
+    <h2 id="h-reg">Sede, povoados e aldeias</h2>
+    <p class="lead">Como os 200 votos se dividem entre a cidade e o interior do município.</p>
+    <div class="split" id="split"></div>
+  </section>
+
+  <section id="mapa" aria-labelledby="h-mapa">
+    <h2 id="h-mapa">No mapa</h2>
+    <p class="lead">Cada círculo é um local de votação. Quanto maior o círculo, mais votos o Seidel teve ali. Os pontos cinza são locais onde ele não foi votado. Toque em um ponto para ver os números.</p>
+    <div id="map" role="region" aria-label="Mapa dos locais de votação de Grajaú"></div>
+    <p class="map-note">A sede aparece em destaque. Afaste o mapa para ver os povoados e aldeias.</p>
+  </section>
+
+  <section id="locais" aria-labelledby="h-loc">
+    <h2 id="h-loc">Escola por escola</h2>
+    <p class="lead">Todos os 58 locais de votação de Grajaú. Clique no título de uma coluna para ordenar.</p>
+    <div class="tools">
+      <label class="sr" for="q" style="position:absolute;left:-9999px">Buscar local ou bairro</label>
+      <input id="q" type="search" placeholder="Buscar escola, bairro ou povoado">
+      <label for="fz" style="position:absolute;left:-9999px">Filtrar região</label>
+      <select id="fz"><option value="">Todo o município</option><option>Sede</option><option>Povoados</option><option>Aldeias</option></select>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="tablebox">
+      <table id="tbl">
+        <thead><tr>
+          <th data-k="nome">Local de votação</th>
+          <th data-k="bairro">Bairro / povoado</th>
+          <th data-k="secoes" class="n">Seções</th>
+          <th data-k="validos" class="n">Votos válidos</th>
+          <th data-k="votos" class="n" aria-sort="descending">Votos Seidel</th>
+          <th data-k="pct" class="n">% Seidel</th>
+        </tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+</div>
+
+<div id="p-geral" role="tabpanel" aria-labelledby="tab-geral" hidden>
+  <header class="ghead">
+    <div class="wrap">
+      <p class="place">Grajaú, Maranhão. Eleições 2026, 1º turno</p>
+      <h1 class="gtitle">Como Grajaú votou para Deputado Estadual</h1>
+      <p class="gsub">Todos os candidatos que receberam votos no município, com o resultado em cada bairro, povoado e aldeia. <a href="#fontes" class="srclink">Fonte: TSE</a></p>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="facts" id="gfacts"></div>
+
+    <section aria-labelledby="h-rank">
+      <h2 id="h-rank">Ranking em Grajaú</h2>
+      <p class="lead">Votos de cada candidato dentro do município. A coluna "No Maranhão" mostra o total no estado, e "Situação" é o resultado oficial do TSE.</p>
+      <div class="tools">
+        <label for="gq" style="position:absolute;left:-9999px">Buscar candidato</label>
+        <input id="gq" type="search" placeholder="Buscar nome, número ou partido">
+        <label for="gp" style="position:absolute;left:-9999px">Filtrar partido</label>
+        <select id="gp"><option value="">Todos os partidos</option></select>
+        <span class="count" id="gcount"></span>
+      </div>
+      <div class="tablebox tall">
+        <table id="rank">
+          <thead><tr><th class="n">#</th><th>Candidato</th><th class="n">Número</th><th>Partido</th><th class="n">Votos em Grajaú</th><th class="n">% dos válidos</th><th class="n">No Maranhão</th><th>Situação</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-part">
+      <h2 id="h-part">Votos por partido</h2>
+      <p class="lead">Soma dos votos nos candidatos de cada partido mais os votos dados só ao número do partido (voto de legenda).</p>
+      <div class="card"><div class="bars" id="pbars"></div></div>
+    </section>
+
+    <section aria-labelledby="h-cmp">
+      <h2 id="h-cmp">Um candidato, bairro por bairro</h2>
+      <p class="lead">Escolha um candidato para ver onde ele foi votado em Grajaú.</p>
+      <div class="card">
+        <div class="tools"><label for="gc" style="position:absolute;left:-9999px">Candidato</label><select id="gc"></select><span class="count" id="gcsum"></span></div>
+        <div class="bars" id="cbars"></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="h-gb">
+      <h2 id="h-gb">Quem liderou em cada bairro</h2>
+      <p class="lead">Os três mais votados em cada bairro, povoado e aldeia. Clique no título de uma coluna para ordenar.</p>
+      <div class="tablebox tall">
+        <table id="gbt">
+          <thead><tr><th>Bairro / povoado</th><th>Área</th><th class="n">Votos válidos</th><th>1º lugar</th><th>2º lugar</th><th>3º lugar</th><th class="n">Ricardo Seidel</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>
+
+<footer id="fontes">
+  <div class="wrap">
+    <h2 class="fh">Fontes dos dados</h2>
+    <ol class="src">
+      <li><b>Boletins de urna, 1º turno 2026 (Grajaú, zona 15, 181 urnas).</b> Tribunal Superior Eleitoral, sistema Resultados. Arquivo oficial de cada urna, com os votos de cada candidato por seção.<br>
+        <a href="https://resultados.tse.jus.br/oficial/app/index.html" target="_blank" rel="noopener">resultados.tse.jus.br</a>, em Dados de urna, MA, Grajaú.</li>
+      <li><b>Resultado de Grajaú para Deputado Estadual.</b> TSE, sistema Resultados, usado para conferir os totais por candidato e a situação no estado (eleito ou suplente).<br>
+        <a href="https://resultados.tse.jus.br/oficial/ele2026/6259/dados/ma/ma07935-c0007-e006259-u.json" target="_blank" rel="noopener">Arquivo de resultado do município (eleição 6259, cargo 7)</a></li>
+      <li><b>Eleitorado por local de votação, 2026.</b> TSE, Portal de Dados Abertos. Nome da escola, endereço, bairro, povoado e coordenadas de cada local.<br>
+        <a href="https://dadosabertos.tse.jus.br/dataset/eleitorado-2026" target="_blank" rel="noopener">dadosabertos.tse.jus.br, conjunto Eleitorado 2026</a>,
+        arquivo <a href="https://cdn.tse.jus.br/estatistica/sead/odsele/eleitorado_locais_votacao/eleitorado_local_votacao_2026.zip" target="_blank" rel="noopener">eleitorado_local_votacao_2026.zip</a></li>
+      <li><b>Mapa.</b> Base cartográfica <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>.</li>
+    </ol>
+    <p><b>Como os números foram montados.</b> Os votos de cada urna foram somados por local de votação, bairro e região (sede, povoados e aldeias, conforme o bairro informado pelo TSE). Os totais conferem com o resultado oficial do TSE: 40.903 votos válidos para Deputado Estadual em Grajaú, dos quais 200 para Ricardo Seidel. Os percentuais consideram só os votos válidos (sem brancos e nulos). Na comparação por bairro aparecem em detalhe os 25 candidatos mais votados em Grajaú.</p>
+    <p>O local nº 2046 (seção 384) não consta no cadastro de locais publicado pelo TSE e aparece como "não informado".</p>
+    <p class="upd">Dados extraídos em 05/10/2026, com a apuração do 1º turno (04/10/2026) totalizada.</p>
+  </div>
+</footer>
+
+<script>
+const DATA = [{"nr": "1015", "nome": "Unidade de Ensino 1 Grau Amaral Raposo CAIC", "bairro": "Mangueira", "reg": "Sede", "lat": -5.81427706, "lon": -46.13129309, "secoes": 7, "validos": 1693, "votos": 10, "comp": 1740}, {"nr": "1066", "nome": "Grupo Escolar Urbano Santos", "bairro": "Centro", "reg": "Sede", "lat": -5.81910736, "lon": -46.14230926, "secoes": 2, "validos": 521, "votos": 3, "comp": 532}, {"nr": "1104", "nome": "CESG Livino de Sousa Rezende", "bairro": "Trezidela", "reg": "Sede", "lat": -5.8176257, "lon": -46.1469246, "secoes": 5, "validos": 994, "votos": 18, "comp": 1025}, {"nr": "1112", "nome": "Colegio Jose Rodrigues da Costa", "bairro": "Canoeiro", "reg": "Sede", "lat": -5.82339756, "lon": -46.15744321, "secoes": 8, "validos": 1663, "votos": 19, "comp": 1723}, {"nr": "1090", "nome": "Complexo Educacional de Ensino Medio e Fundamental Nicolau Dino", "bairro": "Vila Viana", "reg": "Sede", "lat": -5.8198062, "lon": -46.13778158, "secoes": 7, "validos": 1355, "votos": 7, "comp": 1393}, {"nr": "1040", "nome": "Centro Mais Integral - Antigo Mecenas Falcão", "bairro": "Centro", "reg": "Sede", "lat": -5.8147698, "lon": -46.1442895, "secoes": 2, "validos": 409, "votos": 0, "comp": 418}, {"nr": "1520", "nome": "CEMEI Indígena Bacurizinho", "bairro": "Aldeia Bacurizinho", "reg": "Aldeias", "lat": -5.86456576, "lon": -45.97349057, "secoes": 3, "validos": 621, "votos": 0, "comp": 624}, {"nr": "1759", "nome": "Escola Municipal Menino Jesus", "bairro": "Vilinha", "reg": "Sede", "lat": -5.8208252, "lon": -46.16507556, "secoes": 5, "validos": 1468, "votos": 12, "comp": 1520}, {"nr": "1147", "nome": "Colegio Sirino Rodrigues", "bairro": "Povoado Remanso", "reg": "Povoados", "lat": -5.7433234, "lon": -45.991588, "secoes": 7, "validos": 1141, "votos": 2, "comp": 1174}, {"nr": "1589", "nome": "Unidade Escolar Antonio Francisco dos Reis", "bairro": "Rodoviário", "reg": "Sede", "lat": -5.81150167, "lon": -46.13836821, "secoes": 5, "validos": 1137, "votos": 2, "comp": 1175}, {"nr": "1120", "nome": "Grupo Escolar Municipal Silvino Arruda", "bairro": "Povoado Jaburú", "reg": "Povoados", "lat": -5.54581769, "lon": -46.16249979, "secoes": 1, "validos": 177, "votos": 2, "comp": 181}, {"nr": "2143", "nome": "Escola Municipal Professor Francisco Dias Dutra", "bairro": "Expoagra", "reg": "Sede", "lat": -5.8080973, "lon": -46.1223414, "secoes": 5, "validos": 1390, "votos": 4, "comp": 1451}, {"nr": "1023", "nome": "Colegio Diocesano Santo Antonio", "bairro": "Cidade Alta", "reg": "Sede", "lat": -5.81680996, "lon": -46.1398245, "secoes": 5, "validos": 1063, "votos": 1, "comp": 1084}, {"nr": "1309", "nome": "Escola Municipal Euclides da Cunha", "bairro": "Povoado Flores", "reg": "Povoados", "lat": -5.45268863, "lon": -45.9230644, "secoes": 3, "validos": 481, "votos": 0, "comp": 486}, {"nr": "1570", "nome": "Unidade Escolar Gianna Beretta Molla", "bairro": "Povoado Sabonete", "reg": "Povoados", "lat": -5.59302, "lon": -45.7210661, "secoes": 2, "validos": 388, "votos": 0, "comp": 408}, {"nr": "1139", "nome": "Unidade Escolar Frei Alberto Beretta", "bairro": "Povoado Alto Brasil", "reg": "Povoados", "lat": -5.6258617, "lon": -45.76636, "secoes": 7, "validos": 1827, "votos": 3, "comp": 1881}, {"nr": "1732", "nome": "Colegio Princesa Isabel", "bairro": "Povoado Sambaíba", "reg": "Povoados", "lat": -5.35214659, "lon": -46.20359553, "secoes": 2, "validos": 395, "votos": 0, "comp": 409}, {"nr": "1376", "nome": "Escola Municipal Goncalves Dias", "bairro": "Povoado Bela Estrela", "reg": "Povoados", "lat": -5.48660547, "lon": -46.20860329, "secoes": 2, "validos": 425, "votos": 0, "comp": 435}, {"nr": "2151", "nome": "Escola Municipal Raimundo Nonato Bogea Ribeiro", "bairro": "Canoeiro", "reg": "Sede", "lat": -5.81927, "lon": -46.1558752, "secoes": 4, "validos": 902, "votos": 3, "comp": 929}, {"nr": "1899", "nome": "Escola Indígena Yrikamiri", "bairro": "Aldeia Bananal", "reg": "Aldeias", "lat": -5.9152523, "lon": -45.6000553, "secoes": 2, "validos": 296, "votos": 0, "comp": 308}, {"nr": "1716", "nome": "Colegio Municipal Paulo Ferraz de Sousa", "bairro": "Expoagra", "reg": "Sede", "lat": -5.8080244, "lon": -46.1223503, "secoes": 3, "validos": 813, "votos": 5, "comp": 843}, {"nr": "1392", "nome": "Escola Municipal Rui Barbosa", "bairro": "Povoado Matusalém", "reg": "Povoados", "lat": -5.9836666, "lon": -45.7519553, "secoes": 3, "validos": 689, "votos": 2, "comp": 707}, {"nr": "1635", "nome": "Complexo Educacional de Ensino Fundamental e Medio Dimas Simas Lima", "bairro": "Canoeiro", "reg": "Sede", "lat": -5.81932105, "lon": -46.15783486, "secoes": 6, "validos": 1895, "votos": 11, "comp": 1962}, {"nr": "2135", "nome": "Colégio Milirar Tiradentes Lv", "bairro": "Quem Dera", "reg": "Sede", "lat": -5.8040711, "lon": -46.1115421, "secoes": 3, "validos": 799, "votos": 3, "comp": 823}, {"nr": "1910", "nome": "Colégio Militar 2 de Julho, Antigo Caminho do Futuro", "bairro": "Vilinha", "reg": "Sede", "lat": -5.82070597, "lon": -46.1629054, "secoes": 9, "validos": 2620, "votos": 11, "comp": 2713}, {"nr": "1902", "nome": "Escola Indígena Muyraw", "bairro": "Aldeia Ipú", "reg": "Aldeias", "lat": -5.84071946, "lon": -45.96933392, "secoes": 2, "validos": 418, "votos": 2, "comp": 423}, {"nr": "1988", "nome": "Escola Municipal Alcindo Felipe da Silva", "bairro": "Vila Tucum", "reg": "Sede", "lat": -5.80862376, "lon": -46.15613847, "secoes": 5, "validos": 1274, "votos": 11, "comp": 1330}, {"nr": "1970", "nome": "Escola Creche Tia Maria Feitosa", "bairro": "Extrema", "reg": "Sede", "lat": -5.83090975, "lon": -46.15411592, "secoes": 6, "validos": 1675, "votos": 13, "comp": 1730}, {"nr": "1945", "nome": "Escola Nova Aliança", "bairro": "Canoeiro", "reg": "Sede", "lat": -5.81969828, "lon": -46.15904343, "secoes": 3, "validos": 662, "votos": 14, "comp": 692}, {"nr": "2046", "nome": "Local 2046", "bairro": "Não informado", "reg": "Não informado", "lat": null, "lon": null, "secoes": 1, "validos": 252, "votos": 1, "comp": 260}, {"nr": "1287", "nome": "Escola Municipal Santo Antonio", "bairro": "Povoado Alto do Coco", "reg": "Povoados", "lat": -5.44060793, "lon": -45.82149391, "secoes": 2, "validos": 376, "votos": 0, "comp": 383}, {"nr": "1597", "nome": "Colegio Frei Benjamim de Borno", "bairro": "Vila Viana", "reg": "Sede", "lat": -5.82146559, "lon": -46.13572122, "secoes": 5, "validos": 1352, "votos": 7, "comp": 1396}, {"nr": "1554", "nome": "Escola Municipal Professor Hilton Nunes", "bairro": "Canoeiro", "reg": "Sede", "lat": -5.8194131, "lon": -46.1569604, "secoes": 6, "validos": 1311, "votos": 4, "comp": 1353}, {"nr": "1783", "nome": "Câmara Municipal de Grajaú", "bairro": "Centro", "reg": "Sede", "lat": -5.81923894, "lon": -46.14381399, "secoes": 1, "validos": 295, "votos": 0, "comp": 299}, {"nr": "1805", "nome": "Escola Municipal Professora Marly Araújo", "bairro": "Aeroporto", "reg": "Sede", "lat": -5.8084011, "lon": -46.119494, "secoes": 3, "validos": 778, "votos": 3, "comp": 823}, {"nr": "1880", "nome": "Escola Municipal Getúlio Vargas", "bairro": "Povoado Gato Preto", "reg": "Povoados", "lat": -5.96978841, "lon": -46.42102931, "secoes": 2, "validos": 376, "votos": 1, "comp": 384}, {"nr": "1767", "nome": "Colégio Ezon Moreira Ferraz", "bairro": "Canoeiro", "reg": "Sede", "lat": -5.82182691, "lon": -46.1571876, "secoes": 3, "validos": 774, "votos": 6, "comp": 800}, {"nr": "1082", "nome": "Secretaria de Ação Social", "bairro": "Centro", "reg": "Sede", "lat": -5.81673084, "lon": -46.14342887, "secoes": 1, "validos": 258, "votos": 0, "comp": 261}, {"nr": "1848", "nome": "Escola Municipal Professor José Rufino Sobrinho", "bairro": "Povoado Emburuçú", "reg": "Povoados", "lat": -5.9886829, "lon": -46.0617173, "secoes": 2, "validos": 322, "votos": 1, "comp": 330}, {"nr": "2020", "nome": "Escola Municipal Pedro Neiva de Santana", "bairro": "Povoado Alto Brasil", "reg": "Povoados", "lat": -5.624236, "lon": -45.7661205, "secoes": 2, "validos": 316, "votos": 1, "comp": 328}, {"nr": "1937", "nome": "Escola Municipal Educar Para Crescer", "bairro": "Extrema", "reg": "Sede", "lat": -5.8324659, "lon": -46.1613409, "secoes": 6, "validos": 1534, "votos": 9, "comp": 1588}, {"nr": "1856", "nome": "Escola Municipal Professor Pedro Paulo Abreu", "bairro": "Povoado Brejo das Moreiras", "reg": "Povoados", "lat": -5.69950507, "lon": -46.29572673, "secoes": 1, "validos": 43, "votos": 0, "comp": 44}, {"nr": "1872", "nome": "Escola Municipal João Bezerra da Silva", "bairro": "Povoado Morros", "reg": "Povoados", "lat": -5.8851033, "lon": -46.2426906, "secoes": 2, "validos": 387, "votos": 1, "comp": 399}, {"nr": "2054", "nome": "CEMEI Indígena Cacique Virgulino Bento", "bairro": "Aldeia Morro Branco", "reg": "Aldeias", "lat": -5.82123998, "lon": -46.13034383, "secoes": 2, "validos": 297, "votos": 0, "comp": 302}, {"nr": "2011", "nome": "Escola Municipal de Ensino Fundamental São Sebastião", "bairro": "Povoado Nova Conquista", "reg": "Povoados", "lat": -5.58726551, "lon": -45.98701691, "secoes": 1, "validos": 214, "votos": 0, "comp": 220}, {"nr": "1325", "nome": "Escola Municipal Santa Uniao", "bairro": "Povoado Aldeia Velha", "reg": "Povoados", "lat": -5.50712262, "lon": -45.87863809, "secoes": 2, "validos": 355, "votos": 4, "comp": 363}, {"nr": "2070", "nome": "Unidade Prisional de Grajau", "bairro": "Mangueira", "reg": "Sede", "lat": -5.8158599, "lon": -46.1301825, "secoes": 1, "validos": 15, "votos": 0, "comp": 21}, {"nr": "2119", "nome": "Escola Municipal José Félix dos Santos", "bairro": "Povoado Tabocão", "reg": "Povoados", "lat": -6.1727106, "lon": -46.07029432, "secoes": 1, "validos": 61, "votos": 0, "comp": 61}, {"nr": "1813", "nome": "Centro de Convivência - (casa do Idoso)", "bairro": "Canoeiro", "reg": "Sede", "lat": -5.8207785, "lon": -46.1534312, "secoes": 2, "validos": 526, "votos": 1, "comp": 547}, {"nr": "1740", "nome": "Colegio Agricola Projeto Boa Vista", "bairro": "Projeto Boa Vista", "reg": "Povoados", "lat": -5.6341751, "lon": -46.20528826, "secoes": 2, "validos": 365, "votos": 1, "comp": 378}, {"nr": "1694", "nome": "Colegio Pastor José Pires", "bairro": "Povoado Vera Cruz", "reg": "Povoados", "lat": -6.052525, "lon": -46.1159783, "secoes": 2, "validos": 511, "votos": 0, "comp": 525}, {"nr": "1708", "nome": "Colegio Municipal Bom Futuro", "bairro": "Povoado Lagoa de Pedra", "reg": "Povoados", "lat": -5.68012922, "lon": -45.8845129, "secoes": 1, "validos": 236, "votos": 0, "comp": 243}, {"nr": "1643", "nome": "Escola Municipal Santa Terezinha", "bairro": "Povoado Vilhena", "reg": "Povoados", "lat": -6.16728995, "lon": -46.36899159, "secoes": 1, "validos": 183, "votos": 0, "comp": 185}, {"nr": "1821", "nome": "Escola Municipal Lenilce Arruda", "bairro": "Povoado Nova Terra", "reg": "Povoados", "lat": -5.51200731, "lon": -45.92532, "secoes": 1, "validos": 162, "votos": 0, "comp": 171}, {"nr": "1961", "nome": "Escola Municipal Mercial Lima de Arruda", "bairro": "Povoado Sobradinho", "reg": "Povoados", "lat": -5.9843847, "lon": -45.4952545, "secoes": 1, "validos": 140, "votos": 2, "comp": 143}, {"nr": "2100", "nome": "Centro de Ensino Municipal Indigina Aldeia Taboca", "bairro": "Aldeia Taboca", "reg": "Aldeias", "lat": -5.9662709, "lon": -45.6974361, "secoes": 1, "validos": 104, "votos": 0, "comp": 106}, {"nr": "2097", "nome": "Escola Municipal Novo Horizonte", "bairro": "Angico 1", "reg": "Povoados", "lat": -6.1294384, "lon": -46.371418, "secoes": 1, "validos": 65, "votos": 0, "comp": 66}, {"nr": "2089", "nome": "Escola Indígena Teko", "bairro": "Aldeia Olho D'água", "reg": "Aldeias", "lat": -5.8858046, "lon": -45.89062669, "secoes": 1, "validos": 104, "votos": 0, "comp": 104}];
+const EST = {"c":[[15000,"RICARDO ARRUDA","MDB",13475,35543,"Suplente"],[15777,"YURI ARRUDA","MDB",4476,32371,"Suplente"],[15200,"ABIGAIL CUNHA","MDB",4144,65720,"Eleito por QP"],[15999,"TIAGO FERNANDES","MDB",2243,66500,"Eleito por QP"],[44321,"DR. PAULO RICARDO","UNIÃO",1625,2829,"Suplente"],[15888,"GULHERME PAZ","MDB",1017,32563,"Suplente"],[22192,"RENECLEI DE SOUSA","PL",933,2756,"Suplente"],[44000,"NATÁLIA DO JÚNIOR GARIMPEIRO","UNIÃO",903,32486,"Eleito por QP"],[15800,"BRUNA PESSOA","MDB",833,73125,"Eleito por QP"],[22100,"ULISSES GONÇALVES","PL",734,66214,"Eleito por QP"],[10800,"ERIC COSTA","REPUBLICANOS",570,43502,"Eleito por QP"],[15455,"MADEIRA","MDB",470,27670,"Suplente"],[15111,"ARNALDO MELO","MDB",468,40495,"Suplente"],[22333,"DETINHA","PL",410,83546,"Eleito por QP"],[15333,"ANTONIO PEREIRA","MDB",372,64204,"Eleito por QP"],[13400,"DEUSIMAR NASCIMENTO","PT",368,677,"Suplente"],[15222,"FLORENCIO NETO","MDB",368,59353,"Eleito por QP"],[44444,"PAULO CASÉ FERNANDES","UNIÃO",356,95608,"Eleito por QP"],[13013,"LUANNA","PT",304,51260,"Eleito por QP"],[15444,"VANESSA MARRECA","MDB",217,81322,"Eleito por QP"],[15258,"DANIELLA","MDB",215,66040,"Eleito por QP"],[55123,"RICARDO SEIDEL","PSD",200,13690,"Suplente"],[15233,"ARISTON","MDB",181,46511,"Eleito por média"],[55000,"PAULA PRATA","PSD",153,52300,"Eleito por QP"],[55456,"DRA VIVIANNE","PSD",146,28067,"Suplente"],[15015,"OSMAR FILHO","MDB",143,31137,"Suplente"],[10789,"DEPUTADA JANAINA","REPUBLICANOS",123,18898,"Suplente"],[22122,"JÚLIO FILHO","PL",107,41160,"Suplente"],[55789,"DELEGADO CESAR FERRO","PSD",99,21191,"Suplente"],[55190,"SOLDADO LEITE","PSD",97,21317,"Suplente"],[77123,"CHANTER LANE","SOLIDARIEDADE",96,1320,"Suplente"],[15789,"DAVI BRANDÃO","MDB",95,61692,"Eleito por QP"],[25123,"ANTÔNIO RABELO","PRD",95,18409,"Suplente"],[12345,"JOÃO IGOR CARVALHO","PDT",90,69440,"Eleito por QP"],[44222,"PASTOR CÉLIO HENRIQUE","UNIÃO",88,6470,"Suplente"],[13222,"ROSILENE GUAJAJARA","PT",87,5746,"Suplente"],[10456,"DELEGADO ASSIS RAMOS","REPUBLICANOS",87,6744,"Suplente"],[22111,"PRISCILA CARAÇA","PL",72,21103,"Suplente"],[13333,"CRICIELLE","PT",69,85630,"Eleito por QP"],[10144,"ALUISIO SOUSA","REPUBLICANOS",61,15843,"Suplente"],[22345,"SOLANGE ALMEIDA","PL",58,58649,"Eleito por QP"],[15215,"TULIO REZENDE","MDB",52,50716,"Eleito por QP"],[77777,"JULYFRAN CATINGUEIRO","SOLIDARIEDADE",50,5193,"Suplente"],[13123,"ZÉ INÁCIO","PT",47,27801,"Suplente"],[12555,"ANGELA SILVA","PDT",46,15670,"Suplente"],[15555,"KEKE TEIXEIRA","MDB",45,7740,"Suplente"],[22000,"SEGUNDO","PL",37,63000,"Eleito por QP"],[65000,"PAULA COUTINHO","PCDOB",34,10338,"Suplente"],[22123,"ALUÍZIO SANTOS","PL",34,77591,"Eleito por QP"],[10123,"ROSANA DA SAÚDE","REPUBLICANOS",33,21541,"Suplente"],[22222,"JOSIMAR","PL",32,83112,"Eleito por QP"],[12333,"CID COSTA","PDT",32,35469,"Eleito por média"],[22022,"FILIPE ARNON","PL",31,16886,"Suplente"],[40000,"MARIA CLARA MACEDO","PSB",31,25523,"Suplente"],[10111,"PARÁ FIGUEIREDO","REPUBLICANOS",29,9008,"Suplente"],[25111,"MANCHINHA","PRD",29,12488,"Suplente"],[12000,"MAEDJA CAMPOS","PDT",27,102694,"Eleito por QP"],[10999,"FRANÇA DO MACAQUINHO","REPUBLICANOS",27,27909,"Suplente"],[15345,"RUI JORGE","MDB",27,54786,"Eleito por QP"],[13444,"MARINA SOUSA","PT",22,1065,"Suplente"],[30000,"JOCIMAR FEITOSA","NOVO",20,2303,"Não eleito"],[55555,"DOUGLAS PINTO","PSD",18,82338,"Eleito por QP"],[10222,"COLETIVO COM VOCÊ JOTTA PINTO","REPUBLICANOS",18,28377,"Suplente"],[40789,"CARLOS LULA","PSB",17,22550,"Suplente"],[55222,"JUNIOR VIEIRA","PSD",16,28914,"Eleito por QP"],[10000,"JUNIOR CASCARIA","REPUBLICANOS",16,32338,"Eleito por QP"],[55111,"WELLINGTON DO CURSO","PSD",15,25740,"Suplente"],[10510,"PROFESSORA SOCORRO WAQUIM","REPUBLICANOS",15,32155,"Suplente"],[15123,"GLALBERT CUTRIM","MDB",15,36628,"Suplente"],[15321,"JUNIOR VIANA","MDB",14,44762,"Eleito por média"],[25046,"RICARDO GONÇALVES","PRD",14,6850,"Suplente"],[10369,"DRª HELENA DUAILIBE","REPUBLICANOS",12,24918,"Suplente"],[15400,"IVO REZENDE","MDB",12,59982,"Eleito por QP"],[13000,"RACKEL COSTA LEITE","PT",11,1529,"Suplente"],[55678,"PASTOR FREDERIC","PSD",11,6299,"Suplente"],[70190,"RAUL SEGUNDO BIBIU","AVANTE",11,2464,"Não eleito"],[22555,"CLÁUDIO CUNHA","PL",11,49394,"Eleito por média"],[55777,"RODRIGO ARRAIS","PSD",10,12868,"Suplente"],[40022,"DR. KAKÁ VIANA","PSB",10,711,"Suplente"],[55444,"DINO DO ALDENORA BELO","PSD",9,33664,"Eleito por QP"],[22789,"ENOS COSTA FERREIRA","PL",9,27022,"Suplente"],[22888,"EDSON ARAÚJO","PL",9,14629,"Suplente"],[10190,"SARGENTO ADRIANO","REPUBLICANOS",9,7773,"Suplente"],[40222,"RODRIGO LAGO","PSB",8,17406,"Suplente"],[10555,"ADELMO SOARES","REPUBLICANOS",8,21416,"Suplente"],[15700,"GLEYDSON","MDB",8,95645,"Eleito por QP"],[25222,"VALDENIO CAMINHA","PRD",8,1614,"Suplente"],[13111,"MANELIM","PT",7,515,"Suplente"],[50501,"BEATRIZ LIMA","PSOL",7,1076,"Não eleito"],[12300,"DINAIR VELOSO","PDT",7,4722,"Suplente"],[44123,"DR. CLÁUDIO PAZ","UNIÃO",7,4504,"Suplente"],[44111,"DELEGADO JESSÉ","UNIÃO",7,4171,"Suplente"],[40123,"MARCOS MIRANDA JUNIOR","PSB",7,76687,"Eleito por QP"],[15100,"CLAUDIA COUTINHO","MDB",7,44914,"Eleito por média"],[13233,"JHONATA PINHEIRO","PT",6,519,"Suplente"],[15678,"NETO EVANGELISTA","MDB",6,48329,"Eleito por QP"],[55086,"LUCIANO LEITOA","PSD",5,5079,"Suplente"],[70221,"QUIRINO","AVANTE",5,97,"Não eleito"],[50000,"NONATO MORAES","PSOL",5,452,"Não eleito"],[22400,"DR. FÁBIO HERNANDEZ","PL",4,2250,"Suplente"],[22217,"MARANHÃO DE PEA","PL",4,1798,"Suplente"],[12222,"MARLEIDY BERNABÉ","PDT",4,3181,"Suplente"],[15151,"NAGIB","MDB",4,47348,"Eleito por QP"],[25333,"CORONEL MEDEIROS","PRD",4,4933,"Suplente"],[77000,"CLAUDIO DO CALDO","SOLIDARIEDADE",4,483,"Suplente"],[65065,"CHAGÃO","PCDOB",3,666,"Suplente"],[13456,"PAULINHA MATOS","PT",3,4166,"Suplente"],[13026,"LYA AMARAL","PT",3,482,"Suplente"],[13024,"PÂMELA MARANHÃO","PT",3,467,"Suplente"],[55055,"FABIANA MELO RODRIGUES","PSD",3,4189,"Suplente"],[22244,"DIEGO POLAKO","PL",3,857,"Suplente"],[40456,"LEANDRO BELLO","PSB",3,27328,"Eleito por QP"],[40777,"JULIO MENDONÇA","PSB",3,18567,"Suplente"],[40555,"FRANCIVALDO COSTA","PSB",3,1662,"Não eleito"],[25252,"DR. ANTONIO BORBA","PRD",3,11764,"Suplente"],[25000,"PINTO ITAMARATY","PRD",3,240,"Suplente"],[13133,"MINGOS SALAZAR","PT",2,794,"Suplente"],[13015,"FERNANDO SANTOS","PT",2,642,"Suplente"],[13130,"CHAGA ROSA","PT",2,632,"Não eleito"],[13555,"MARINA CABELEREIRA","PT",2,380,"Suplente"],[13110,"GAUDINO GUSMÃO","PT",2,366,"Suplente"],[13121,"WHASHINGTHON LUIZ","PT",2,365,"Suplente"],[13777,"REGINA LINS DA MUNDIAL","PT",2,93,"Suplente"],[55300,"ADRIANA MENDES","PSD",2,638,"Suplente"],[22233,"LEANE LAGO","PL",2,774,"Suplente"],[22220,"BEATRIZ VIEIRA","PL",2,757,"Suplente"],[12712,"ARNALDO GOMES","PDT",2,3071,"Suplente"],[12789,"AMORIM DO POVO","PDT",2,1072,"Suplente"],[12123,"GLEYCE MORAIS","PDT",2,679,"Suplente"],[12111,"AMORIM","PDT",2,158,"Suplente"],[30444,"AMARO TACOBRAS","NOVO",2,277,"Não eleito"],[30030,"PROF. FRANCISCO CUNHA","NOVO",2,235,"Não eleito"],[44777,"JÚNIA NUNES","UNIÃO",2,2104,"Suplente"],[44400,"PROFª VANDERLY","UNIÃO",2,2078,"Suplente"],[25777,"A JAPA DO ARROCHA","PRD",2,241,"Suplente"],[65013,"GLINOEL GARRETO","PCDOB",1,6779,"Suplente"],[65123,"RÉGINA GALENO","PCDOB",1,966,"Suplente"],[13131,"RIBAMAR PINHEIRO","PT",1,458,"Suplente"],[21123,"ROMILDA","PCB",1,255,"Não eleito"],[21000,"CAETANO COSTA","PCB",1,183,"Não eleito"],[55155,"YURI CORREA","PSD",1,1857,"Suplente"],[70555,"JOÃO LIMA","AVANTE",1,458,"Não eleito"],[70777,"NAYARA BASTOS","AVANTE",1,162,"Não eleito"],[70456,"ENZO MILHOMEM","AVANTE",1,17,"Não eleito"],[18020,"THAYNARA RIBEIRO","REDE",1,83,"Não eleito"],[50180,"SARA FONTINELE","PSOL",1,560,"Não eleito"],[50012,"PROFESSOR SIKEIRA","PSOL",1,233,"Não eleito"],[50005,"MÁRCIA","PSOL",1,33,"Não eleito"],[22444,"REGILDA SANTOS","PL",1,8699,"Suplente"],[22500,"ENFERMEIRA ELIZIANE","PL",1,828,"Suplente"],[22522,"FABIANA RAMADA","PL",1,413,"Suplente"],[12012,"CHARLES DOS CARRINHOS","PDT",1,1626,"Suplente"],[12133,"JOÃO SEBASTIÃO","PDT",1,218,"Suplente"],[30138,"LAURINDO FREITAS","NOVO",1,432,"Não eleito"],[44555,"HELLEN MARAVILHA","UNIÃO",1,3225,"Suplente"],[44044,"RENÊ SOUSA","UNIÃO",1,950,"Suplente"],[40666,"POPYS DO POVO","PSB",1,129,"Suplente"],[40321,"ONEIDE LIMA","PSB",1,114,"Suplente"],[10777,"COLETIVO PROTEGER E SERVIR","REPUBLICANOS",1,751,"Suplente"],[10001,"PEDRO JUNIOR","REPUBLICANOS",1,357,"Suplente"],[25456,"MARCOS CALDAS COLETIVO +","PRD",1,13062,"Suplente"],[25555,"EVANDRO LOBO JÚNIOR","PRD",1,427,"Suplente"]],"l":{"1015":[[10800,16,13013,11,13400,16,15000,760,15111,9,15200,128,15222,6,15233,8,15258,3,15333,14,15444,7,15455,30,15777,162,15800,18,15888,46,15999,79,22100,23,22192,21,22333,5,44000,52,44321,31,44444,14,55000,15,55123,10,55456,11],86,112,27,20],"1023":[[10800,5,13013,8,13400,8,15000,509,15111,10,15200,89,15222,1,15258,1,15333,7,15444,2,15455,14,15777,111,15800,5,15888,29,15999,63,22100,15,22192,10,22333,6,44000,22,44321,14,44444,2,55000,1,55123,1,55456,6],60,64,9,12],"1040":[[10800,5,13013,9,13400,2,15000,203,15111,1,15200,31,15222,1,15258,1,15333,1,15455,3,15777,52,15800,4,15888,8,15999,29,22100,8,22192,5,22333,1,44000,8,44321,7,55456,3],11,16,6,3],"1066":[[10800,2,13013,2,13400,4,15000,219,15111,7,15200,33,15258,2,15333,3,15444,2,15455,2,15777,80,15800,3,15888,6,15999,40,22100,4,22192,14,22333,2,44000,8,44321,8,44444,3,55000,4,55123,3],36,34,4,7],"1082":[[10800,3,13013,3,15000,110,15111,4,15200,15,15258,2,15455,5,15777,36,15800,2,15888,6,15999,21,22100,6,22192,4,44000,9,44321,3,55456,1],14,14,2,1],"1090":[[10800,8,13013,15,13400,11,15000,633,15111,8,15200,101,15222,4,15233,1,15258,2,15333,12,15444,4,15455,10,15777,162,15800,17,15888,27,15999,78,22100,22,22192,14,22333,2,44000,41,44321,25,44444,2,55000,7,55123,7,55456,9],71,62,26,12],"1104":[[10800,9,13013,4,13400,1,15000,419,15111,18,15200,83,15222,5,15258,2,15333,8,15444,4,15455,12,15777,103,15800,7,15888,27,15999,32,22100,16,22192,35,22333,5,44000,17,44321,44,44444,7,55123,18,55456,4],62,52,16,15],"1112":[[10800,34,13013,14,13400,2,15000,537,15111,29,15200,132,15222,19,15233,1,15258,9,15333,18,15444,16,15455,14,15777,192,15800,33,15888,46,15999,62,22100,41,22192,67,22333,5,44000,24,44321,105,44444,9,55000,5,55123,19,55456,2],101,127,27,33],"1120":[[10800,4,13400,1,15000,38,15111,6,15200,23,15222,4,15455,11,15777,54,15800,2,15999,8,44000,4,44321,9,55000,1,55123,2],5,5,2,2],"1139":[[10800,58,13013,3,13400,4,15000,377,15111,7,15200,469,15222,26,15258,5,15333,33,15455,4,15777,198,15800,45,15888,24,15999,51,22100,83,22192,22,22333,34,44000,14,44321,11,44444,60,55000,2,55123,3],154,140,38,16],"1147":[[10800,11,13013,8,13400,11,15000,459,15111,27,15200,194,15258,1,15333,5,15455,11,15777,54,15800,41,15888,9,15999,29,22100,16,22192,9,22333,52,44000,3,44321,37,44444,2,55000,1,55123,2],64,95,22,11],"1287":[[10800,11,13013,2,13400,6,15000,39,15111,20,15200,124,15333,1,15777,72,15800,12,15888,28,15999,20,22100,5,22333,6,44321,4,44444,3,55000,1],1,21,6,1],"1309":[[13013,1,15000,70,15111,19,15200,67,15333,11,15455,2,15777,90,15800,19,15888,13,15999,87,22100,4,22192,1,22333,33,44000,2,44321,1,44444,5,55456,2],23,31,3,2],"1325":[[10800,5,13013,2,13400,5,15000,90,15111,3,15200,157,15777,18,15800,1,15888,7,15999,14,22100,3,22333,4,44000,4,44321,4,44444,2,55000,1,55123,4],12,19,5,3],"1376":[[10800,17,13013,3,15000,120,15111,3,15200,44,15222,6,15258,1,15333,10,15444,2,15455,4,15777,60,15800,3,15888,8,15999,27,22100,2,22192,4,22333,6,44000,10,44321,16,44444,9,55456,4],16,50,2,8],"1392":[[10800,5,13013,2,13400,10,15000,193,15111,23,15200,63,15333,20,15444,1,15455,16,15777,96,15800,3,15888,16,15999,27,22100,1,22192,4,22333,16,44000,59,44321,10,44444,13,55123,2],46,63,5,13],"1520":[[10800,1,13400,57,15000,464,15200,11,15233,4,15333,1,15444,2,15455,2,15777,11,15888,14,15999,2,22333,1,44000,4],24,23,1,2],"1554":[[10800,15,13013,14,13400,2,15000,404,15111,20,15200,122,15222,20,15258,11,15333,6,15444,16,15455,8,15777,139,15800,19,15888,28,15999,66,22100,29,22192,64,22333,15,44000,31,44321,72,44444,10,55000,7,55123,4,55456,2],69,118,23,19],"1570":[[10800,5,13013,5,13400,1,15000,53,15111,14,15200,97,15222,1,15233,2,15333,1,15444,1,15777,42,15800,2,15888,9,15999,11,22100,1,22192,3,22333,4,44000,3,44444,6,55456,1],79,47,12,8],"1589":[[10800,11,13013,13,13400,8,15000,478,15111,13,15200,107,15222,4,15258,2,15333,21,15444,3,15455,17,15777,87,15800,13,15888,35,15999,85,22100,13,22192,10,22333,7,44000,38,44321,27,44444,11,55000,7,55123,2,55456,9],63,53,22,16],"1597":[[10800,5,13013,21,13400,34,15000,609,15111,5,15200,91,15222,5,15233,23,15333,19,15444,3,15455,11,15777,121,15800,16,15888,49,15999,64,22100,11,22192,13,44000,29,44321,15,44444,11,55000,2,55123,7,55456,5],67,116,26,18],"1635":[[10800,19,13013,17,13400,8,15000,605,15111,29,15200,128,15222,20,15233,2,15258,8,15333,14,15444,15,15455,20,15777,253,15800,30,15888,26,15999,83,22100,59,22192,77,22333,13,44000,32,44321,128,44444,17,55000,10,55123,11,55456,9],143,119,46,21],"1643":[[15000,19,15200,14,15444,1,15455,1,15777,11,15800,100,15999,12,22100,1,44000,4],7,13,1,1],"1694":[[10800,11,13400,5,15000,143,15200,42,15222,1,15258,5,15333,6,15444,2,15455,1,15777,82,15800,14,15888,5,15999,75,22100,9,22333,17,44000,10,44321,7,55456,7],26,43,3,11],"1708":[[15000,94,15111,8,15200,21,15258,3,15333,1,15455,1,15777,5,15888,9,15999,30,22100,4,22192,5,22333,10,44000,2,44321,4,44444,3],14,22,4,3],"1716":[[10800,10,13013,6,13400,5,15000,275,15111,1,15200,86,15222,4,15233,1,15258,3,15333,12,15444,11,15455,16,15777,77,15800,19,15888,22,15999,67,22100,17,22192,13,22333,2,44000,8,44321,23,44444,3,55000,6,55123,5,55456,11],46,64,17,13],"1732":[[13400,6,15000,68,15111,11,15200,32,15222,17,15233,14,15258,18,15455,3,15777,39,15800,4,15888,9,15999,14,22100,13,22192,2,22333,9,44321,21,44444,16],67,32,5,9],"1740":[[10800,19,13400,3,15000,49,15111,1,15200,29,15258,6,15333,3,15455,5,15777,46,15800,5,15888,6,15999,77,22100,27,22192,3,22333,3,44000,4,44321,24,44444,1,55123,1],35,18,7,6],"1759":[[10800,23,13013,15,13400,3,15000,438,15111,12,15200,132,15222,37,15233,1,15258,11,15333,9,15444,15,15455,14,15777,163,15800,20,15888,22,15999,87,22100,20,22192,69,22333,3,44000,20,44321,97,44444,11,55000,17,55123,12],100,117,29,23],"1767":[[10800,24,13013,3,13400,3,15000,237,15111,13,15200,51,15222,12,15258,5,15333,8,15444,1,15455,7,15777,76,15800,19,15888,21,15999,37,22100,18,22192,30,22333,4,44000,17,44321,55,44444,8,55000,2,55123,6,55456,9],32,76,17,9],"1783":[[10800,4,13013,1,13400,2,15000,118,15111,4,15200,17,15222,2,15333,8,15455,2,15777,43,15800,5,15888,9,15999,20,22100,5,22192,2,22333,1,44000,3,44321,7,44444,4,55000,1,55456,3],24,10,2,2],"1805":[[10800,10,13013,7,13400,12,15000,261,15111,1,15200,92,15222,5,15233,5,15258,4,15333,8,15444,10,15455,7,15777,53,15800,15,15888,13,15999,46,22100,13,22192,12,22333,10,44000,11,44321,20,44444,6,55000,4,55123,3,55456,3],75,72,24,21],"1813":[[10800,7,13013,3,13400,1,15000,216,15111,8,15200,33,15222,3,15258,1,15333,7,15444,3,15455,2,15777,54,15800,10,15888,5,15999,25,22100,19,22192,26,22333,3,44000,9,44321,17,44444,4,55000,1,55123,1,55456,1],34,33,12,9],"1821":[[13400,4,15000,44,15111,2,15200,21,15222,5,15777,18,15800,6,15888,12,15999,10,22100,4,22192,9,44000,1,44321,3],6,17,2,7],"1848":[[10800,3,13400,3,15000,52,15111,11,15200,68,15222,3,15258,9,15333,6,15777,26,15800,7,15888,6,15999,27,22192,1,22333,35,44000,3,44321,4,44444,1,55123,1,55456,1],19,36,3,5],"1856":[[15000,17,15200,3,15333,1,15800,2,15888,1,15999,1,44321,3,55000,2],9,4,1,0],"1872":[[10800,8,13400,1,15000,65,15111,2,15200,10,15222,4,15258,3,15444,4,15455,11,15777,88,15800,1,15888,61,15999,12,22100,13,22192,7,22333,5,44321,36,44444,2,55000,1,55123,1,55456,2],13,37,8,4],"1880":[[10800,8,13013,1,13400,4,15000,92,15111,5,15200,19,15258,3,15333,2,15444,2,15777,63,15800,29,15888,4,15999,10,22100,8,22192,6,22333,4,44000,4,44321,18,44444,4,55123,1],43,46,3,5],"1899":[[10800,3,15000,83,15200,21,15333,1,15455,61,15777,22,15800,2,15888,14,15999,39,22100,1,44000,4,44444,1],20,24,3,9],"1902":[[10800,1,13400,55,15000,37,15200,14,15233,34,15258,9,15455,8,15777,33,15800,5,15999,24,22192,7,22333,3,44000,137,55123,2],32,17,5,0],"1910":[[10800,41,13013,16,13400,4,15000,763,15111,37,15200,191,15222,38,15233,1,15258,32,15333,19,15444,23,15455,21,15777,329,15800,37,15888,69,15999,183,22100,50,22192,121,22333,13,44000,44,44321,167,44444,29,55000,23,55123,11,55456,6],169,183,51,42],"1937":[[10800,24,13013,10,13400,2,15000,547,15111,11,15200,72,15222,29,15233,1,15258,8,15333,9,15444,5,15455,5,15777,215,15800,25,15888,54,15999,56,22100,25,22192,29,22333,16,44000,33,44321,147,44444,8,55000,2,55123,9,55456,7],86,99,27,27],"1945":[[10800,7,13013,7,15000,205,15111,14,15200,60,15222,9,15233,1,15258,4,15333,2,15444,2,15455,5,15777,85,15800,17,15888,19,15999,32,22100,13,22192,31,22333,2,44000,12,44321,34,44444,8,55000,1,55123,14,55456,1],38,39,17,13],"1961":[[10800,5,13013,1,15000,57,15200,35,15333,1,15777,5,15999,1,22100,4,44000,1,55123,2],17,11,2,1],"1970":[[10800,27,13013,15,13400,4,15000,521,15111,10,15200,123,15222,25,15233,1,15258,11,15333,10,15444,5,15455,12,15777,206,15800,45,15888,41,15999,79,22100,29,22192,28,22333,13,44000,54,44321,161,44444,14,55000,5,55123,13,55456,2],87,134,27,28],"1988":[[10800,23,13013,7,13400,4,15000,332,15111,13,15200,130,15222,16,15233,1,15258,13,15333,6,15444,23,15455,12,15777,109,15800,32,15888,24,15999,88,22100,23,22192,45,22333,12,44000,19,44321,75,44444,15,55000,7,55123,11,55456,3],121,110,25,31],"2011":[[10800,2,13400,3,15000,21,15111,8,15200,22,15333,1,15455,1,15777,53,15800,28,15888,38,15999,5,22100,1,22192,4,44321,2,44444,1],5,19,3,3],"2020":[[10800,13,13013,2,15000,64,15111,1,15200,85,15222,7,15233,1,15333,6,15455,1,15777,38,15800,4,15888,5,15999,10,22100,7,22192,3,22333,4,44000,5,44321,4,44444,7,55000,1,55123,1],26,21,9,3],"2046":[[10800,6,13013,6,13400,3,15000,69,15200,45,15222,3,15258,4,15333,6,15444,1,15455,5,15777,15,15800,8,15888,7,15999,7,22100,6,22192,6,22333,1,44000,3,44321,6,44444,1,55000,2,55123,1,55456,1],13,27,1,7],"2054":[[13013,6,13400,19,15000,72,15200,6,15222,2,15233,69,15258,2,15333,7,15455,3,15777,19,15888,10,22100,1,22192,3,44000,2,44321,2,44444,2],53,19,3,2],"2070":[[13013,1,15000,4,15200,3,15999,1,44321,1,44444,2],2,1,6,0],"2089":[[13400,6,15000,23,15233,2,15455,28,15777,3,15800,4,15888,5,15999,1,22192,1,22333,3,44000,4,55000,1],10,13,0,0],"2097":[[13400,1,15000,4,15200,22,15333,2,15455,1,15777,3,15800,13,15999,2,44000,2],8,7,0,1],"2100":[[15000,24,15200,5,15455,3,15777,21,15999,2,22192,1,44000,26,44444,4],4,14,0,2],"2119":[[13400,1,15000,14,15200,8,15800,5,15888,5,15999,2,44321,15,55456,2],7,2,0,0],"2135":[[10800,12,13013,15,13400,8,15000,258,15111,5,15200,106,15222,2,15233,1,15258,1,15333,7,15444,8,15455,9,15777,66,15800,21,15888,15,15999,40,22100,14,22192,18,22333,6,44000,10,44321,24,44444,2,55000,3,55123,3,55456,8],62,75,10,14],"2143":[[10800,20,13013,22,13400,11,15000,494,15111,7,15200,136,15222,9,15233,5,15258,4,15333,13,15444,15,15455,20,15777,119,15800,18,15888,25,15999,106,22100,14,22192,28,22333,10,44000,23,44321,26,44444,7,55000,7,55123,4,55456,9],94,144,39,22],"2151":[[10800,10,13013,3,13400,4,15000,306,15111,8,15200,81,15222,13,15233,2,15258,6,15333,6,15444,8,15455,9,15777,98,15800,18,15888,20,15999,37,22100,13,22192,46,22333,4,44000,14,44321,51,44444,6,55000,3,55123,3,55456,2],53,78,15,12]}};
+const fmt = n => n.toLocaleString('pt-BR');
+const pct = (a,b) => b ? (a/b*100) : 0;
+const fp = v => v.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+DATA.forEach(d => d.pct = pct(d.votos, d.validos));
+
+const tot = DATA.reduce((s,d)=>s+d.votos,0);
+const val = DATA.reduce((s,d)=>s+d.validos,0);
+document.getElementById('bigTotal').firstChild.nodeValue = fmt(tot);
+
+// group by bairro
+const B = {};
+DATA.forEach(d=>{const k=d.bairro; B[k]=B[k]||{nome:k,reg:d.reg,votos:0,validos:0}; B[k].votos+=d.votos; B[k].validos+=d.validos;});
+const bairros = Object.values(B).map(b=>({...b,pct:pct(b.votos,b.validos)}));
+const comVoto = bairros.filter(b=>b.votos>0);
+const semVoto = bairros.filter(b=>b.votos===0);
+const byV = [...comVoto].sort((a,b)=>b.votos-a.votos||b.pct-a.pct);
+const best = [...comVoto].filter(b=>b.validos>=500).sort((a,b)=>b.pct-a.pct)[0];
+const reg = n => DATA.filter(d=>d.reg===n).reduce((s,d)=>s+d.votos,0);
+const top3 = byV.slice(0,3);
+const topLocal = [...DATA].sort((a,b)=>b.votos-a.votos)[0];
+
+// facts
+const facts = [
+  [fp(pct(tot,val)), 'dos votos válidos para Deputado Estadual em Grajaú'],
+  [fmt(reg('Sede')), 'dos '+fmt(tot)+' votos vieram da sede do município'],
+  [fmt(top3.reduce((s,b)=>s+b.votos,0)), 'votos em '+top3.map(b=>b.nome).join(', ').replace(/, ([^,]*)$/,' e $1')],
+  [fp(best.pct), 'em '+best.nome+', o bairro onde ele teve mais peso']
+];
+document.getElementById('facts').innerHTML = facts.map(f=>`<div class="fact"><b>${f[0]}</b><span>${f[1]}</span></div>`).join('');
+
+// bars
+const barsEl = document.getElementById('bars');
+function drawBars(mode){
+  const list = [...comVoto].sort((a,b)=> mode==='pct' ? b.pct-a.pct : (b.votos-a.votos||b.pct-a.pct));
+  const max = Math.max(...list.map(b=> mode==='pct'?b.pct:b.votos));
+  barsEl.innerHTML = list.map((b,i)=>{
+    const v = mode==='pct'?b.pct:b.votos;
+    const tag = (b.reg==='Sede'||b.reg==='Não informado') ? '' : `<em>${b.reg==='Aldeias'?'aldeia':'interior'}</em>`;
+    return `<div class="bar${i<3?' top':''}"><span class="lbl" title="${b.nome}">${b.nome}${tag}</span><div class="track"><div class="fill" data-w="${(v/max*100).toFixed(1)}"></div></div><span class="val">${mode==='pct'?fp(v):fmt(v)}</span></div>`;
+  }).join('');
+  requestAnimationFrame(()=>requestAnimationFrame(()=>barsEl.querySelectorAll('.fill').forEach(f=>f.style.width=f.dataset.w+'%')));
+}
+document.querySelectorAll('.toggle button').forEach(btn=>btn.addEventListener('click',()=>{
+  document.querySelectorAll('.toggle button').forEach(b=>b.setAttribute('aria-pressed',b===btn));
+  drawBars(btn.dataset.mode);
+}));
+drawBars('votos');
+document.getElementById('zeroList').textContent = `Sem votos (${semVoto.length}): ` + semVoto.map(b=>b.nome).sort((a,b)=>a.localeCompare(b,'pt')).join(', ') + '.';
+
+// split
+const zones = [['Sede','Bairros da cidade'],['Povoados','Zona rural'],['Aldeias','Aldeias indígenas']];
+document.getElementById('split').innerHTML = zones.map(([z,t])=>{
+  const v = reg(z), vv = DATA.filter(d=>d.reg===z).reduce((s,d)=>s+d.validos,0);
+  const nl = DATA.filter(d=>d.reg===z).length, nz = DATA.filter(d=>d.reg===z && d.votos===0).length;
+  return `<div class="zone"><h3>${t}</h3><div class="v">${fmt(v)}</div><p>${fp(pct(v,tot))} dos votos dele, ${fp(pct(v,vv))} dos válidos da área. Zero votos em ${nz} de ${nl} locais.</p><div class="meter"><i style="width:${pct(v,tot)}%"></i></div></div>`;
+}).join('');
+
+// table
+const tbody = document.querySelector('#tbl tbody');
+let sortK='votos', sortDir=-1;
+function drawTable(){
+  const q = document.getElementById('q').value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const fz = document.getElementById('fz').value;
+  const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  let rows = DATA.filter(d=>(!fz||d.reg===fz) && (!q || norm(d.nome+' '+d.bairro).includes(q)));
+  rows.sort((a,b)=>{const x=a[sortK],y=b[sortK]; return (typeof x==='string'? x.localeCompare(y,'pt') : x-y)*sortDir || b.votos-a.votos;});
+  tbody.innerHTML = rows.map(d=>{
+    const cls = d.reg==='Povoados'?' p':d.reg==='Aldeias'?' a':'';
+    return `<tr><td class="${d.votos>=10?'strong':''}">${d.nome}</td><td><span class="tag${cls}">${d.bairro}</span></td><td class="n">${d.secoes}</td><td class="n">${fmt(d.validos)}</td><td class="n strong">${fmt(d.votos)}</td><td class="n">${fp(d.pct)}</td></tr>`;
+  }).join('') || `<tr><td colspan="6">Nenhum local encontrado. Tente outro nome de escola ou bairro.</td></tr>`;
+  const sv = rows.reduce((s,d)=>s+d.votos,0);
+  document.getElementById('count').textContent = `${rows.length} locais, ${fmt(sv)} votos`;
+}
+document.querySelectorAll('#tbl th').forEach(th=>th.addEventListener('click',()=>{
+  const k=th.dataset.k; if(sortK===k) sortDir*=-1; else {sortK=k; sortDir = (k==='nome'||k==='bairro')?1:-1;}
+  document.querySelectorAll('#tbl th').forEach(t=>t.removeAttribute('aria-sort'));
+  th.setAttribute('aria-sort', sortDir>0?'ascending':'descending'); drawTable();
+}));
+document.getElementById('q').addEventListener('input',drawTable);
+document.getElementById('fz').addEventListener('change',drawTable);
+drawTable();
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  if(!window.L){document.getElementById('map').innerHTML='<p style="padding:20px">Não foi possível carregar o mapa. Verifique a conexão e recarregue a página.</p>';return;}
+  const map = L.map('map',{scrollWheelZoom:false}).setView([-5.818,-46.143],14); window._seidelMap=map;
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:18,attribution:'&copy; OpenStreetMap'}).addTo(map);
+  const pts = DATA.filter(d=>d.lat);
+  pts.sort((a,b)=>a.votos-b.votos).forEach(d=>{
+    const r = d.votos ? 7 + Math.sqrt(d.votos)*5 : 5;
+    L.circleMarker([d.lat,d.lon],{radius:r,color:d.votos?'#1d2878':'#8a8fa8',weight:1.5,fillColor:d.votos?'#d9262c':'#b9bdd0',fillOpacity:d.votos?.78:.6})
+     .bindPopup(`<b>${d.nome}</b><br>${d.bairro}<br>${d.votos} voto${d.votos===1?'':'s'} para Seidel (${fp(d.pct)} dos válidos)<br>${d.secoes} seç${d.secoes===1?'ão':'ões'}`)
+     .addTo(map);
+  });
+})();
+</script>
+<script>
+(function(){
+const fmt=n=>n.toLocaleString('pt-BR'), fp=v=>v.toLocaleString('pt-BR',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
+const tc=s=>s.toLowerCase().split(' ').map((w,i)=>i&&['de','da','do','das','dos','e'].includes(w)?w:w.charAt(0).toUpperCase()+w.slice(1)).join(' ');
+const META={}; DATA.forEach(d=>META[d.nr]=d);
+const C=EST.c.map(x=>({n:x[0],nm:tc(x[1]),p:x[2],v:x[3],ma:x[4],st:x[5]}));
+const VAL=DATA.reduce((s,d)=>s+d.validos,0);
+const byN={}; C.forEach(c=>byN[c.n]=c);
+// per-local candidate map
+const LOC={}; Object.entries(EST.l).forEach(([l,[v,o,lg]])=>{const m={};for(let i=0;i<v.length;i+=2)m[v[i]]=v[i+1];LOC[l]={m,lg}});
+// bairros
+const BA={}; DATA.forEach(d=>{const b=BA[d.bairro]=BA[d.bairro]||{nome:d.bairro,reg:d.reg,val:0,m:{}}; b.val+=d.validos; const L=LOC[d.nr]; if(L) for(const[k,q] of Object.entries(L.m)) b.m[k]=(b.m[k]||0)+q;});
+const bairros=Object.values(BA);
+const eleitos=C.filter(c=>/Eleito/.test(c.st));
+const top=C[0];
+const legTot=Object.values(LOC).reduce((s,L)=>s+L.lg,0);
+// facts
+document.getElementById('gfacts').innerHTML=[
+ [fmt(VAL),'votos válidos para Deputado Estadual em Grajaú'],
+ [fmt(C.length),'candidatos receberam pelo menos 1 voto na cidade'],
+ [fp(top.v/VAL*100),'dos votos foram para '+top.nm+', o mais votado'],
+ [fmt(eleitos.length),'dos votados em Grajaú foram eleitos no estado']
+].map(f=>`<div class="fact"><b>${f[0]}</b><span>${f[1]}</span></div>`).join('');
+// ranking
+const gp=document.getElementById('gp');
+[...new Set(C.map(c=>c.p))].sort().forEach(p=>gp.insertAdjacentHTML('beforeend',`<option>${p}</option>`));
+C.forEach((c,i)=>c.pos=i+1);
+function drawRank(){
+  const norm=s=>s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  const q=norm(document.getElementById('gq').value.trim()), p=gp.value;
+  const rows=C.filter(c=>(!p||c.p===p)&&(!q||norm(c.nm+' '+c.n+' '+c.p).includes(q)));
+  document.querySelector('#rank tbody').innerHTML=rows.map(c=>`<tr class="${c.n===55123?'me':''}"><td class="n">${c.pos}º</td><td class="${c.n===55123?'strong':''}">${c.nm}</td><td class="n">${c.n}</td><td>${c.p}</td><td class="n strong">${fmt(c.v)}</td><td class="n">${fp(c.v/VAL*100)}</td><td class="n">${fmt(c.ma)}</td><td><span class="st${/Eleito/.test(c.st)?' e':''}">${c.st||'–'}</span></td></tr>`).join('')||'<tr><td colspan="8">Nenhum candidato encontrado. Tente outro nome ou número.</td></tr>';
+  document.getElementById('gcount').textContent=`${rows.length} candidatos, ${fmt(rows.reduce((s,c)=>s+c.v,0))} votos`;
+}
+document.getElementById('gq').addEventListener('input',drawRank); gp.addEventListener('change',drawRank); drawRank();
+// parties: candidate votes + legenda (legenda per party not split in data -> nominal only + note)
+const P={}; C.forEach(c=>P[c.p]=(P[c.p]||0)+c.v);
+const pl=Object.entries(P).sort((a,b)=>b[1]-a[1]); const pmax=pl[0][1];
+document.getElementById('pbars').innerHTML=pl.map(([p,v],i)=>`<div class="bar${p==='PSD'?' me':''}${i<3&&p!=='PSD'?' top':''}"><span class="lbl">${p}</span><div class="track"><div class="fill" style="width:${(v/pmax*100).toFixed(1)}%"></div></div><span class="val">${fmt(v)}</span></div>`).join('')+`<p class="zero">Somente votos nominais nos candidatos. Além deles, ${fmt(legTot)} eleitores votaram apenas no número de um partido (legenda).</p>`;
+document.querySelector('#h-part + .lead').textContent='Soma dos votos dados aos candidatos de cada partido em Grajaú.';
+// candidate by bairro
+const gc=document.getElementById('gc'); const detail=C.filter(c=>Object.values(BA).some(b=>b.m[c.n]!==undefined));
+detail.forEach(c=>gc.insertAdjacentHTML('beforeend',`<option value="${c.n}">${c.nm} (${c.n}, ${c.p})</option>`));
+gc.value='55123';
+function drawCand(){
+  const n=+gc.value, c=byN[n];
+  const list=bairros.map(b=>({nome:b.nome,reg:b.reg,v:b.m[n]||0,pct:(b.m[n]||0)/b.val*100})).filter(b=>b.v>0).sort((a,b)=>b.v-a.v);
+  const max=Math.max(...list.map(b=>b.v),1);
+  document.getElementById('cbars').innerHTML=list.map((b,i)=>`<div class="bar${i<3?' top':''}"><span class="lbl" title="${b.nome}">${b.nome}${(b.reg==='Sede'||b.reg==='Não informado')?'':`<em>${b.reg==='Aldeias'?'aldeia':'interior'}</em>`}</span><div class="track"><div class="fill" style="width:${(b.v/max*100).toFixed(1)}%"></div></div><span class="val">${fmt(b.v)}</span></div>`).join('');
+  document.getElementById('gcsum').textContent=`${fmt(c.v)} votos em Grajaú, ${fp(c.v/VAL*100)} dos válidos`;
+}
+gc.addEventListener('change',drawCand); drawCand();
+// leaders per bairro
+let bk='val',bd=-1;
+function drawB(){
+  const rows=[...bairros].sort((a,b)=>{const x=a[bk],y=b[bk];return (typeof x==='string'?x.localeCompare(y,'pt'):x-y)*bd});
+  document.querySelector('#gbt tbody').innerHTML=rows.map(b=>{
+    const t=Object.entries(b.m).sort((a,c)=>c[1]-a[1]).slice(0,3).map(([k,q])=>`${byN[k].nm} <small>${fmt(q)} (${fp(q/b.val*100)})</small>`);
+    const se=b.m[55123]||0;
+    return `<tr><td class="strong">${b.nome}</td><td>${b.reg}</td><td class="n">${fmt(b.val)}</td><td>${t[0]||'–'}</td><td>${t[1]||'–'}</td><td>${t[2]||'–'}</td><td class="n">${se?fmt(se)+' <small>('+fp(se/b.val*100)+')</small>':'0'}</td></tr>`;
+  }).join('');
+}
+const keys=['nome','reg','val'];
+document.querySelectorAll('#gbt th').forEach((th,i)=>{ if(i>2) {th.style.cursor='default';return;} th.addEventListener('click',()=>{const k=keys[i]; if(bk===k) bd*=-1; else {bk=k; bd=k==='val'?-1:1;} document.querySelectorAll('#gbt th').forEach(t=>t.removeAttribute('aria-sort')); th.setAttribute('aria-sort',bd>0?'ascending':'descending'); drawB();});});
+document.querySelectorAll('#gbt th')[2].setAttribute('aria-sort','descending');
+drawB();
+// tabs
+function route(){
+  if(location.hash==='#fontes')return; const g=location.hash==='#geral';
+  document.getElementById('p-geral').hidden=!g; document.getElementById('p-seidel').hidden=g;
+  document.getElementById('tab-geral').setAttribute('aria-selected',g); document.getElementById('tab-seidel').setAttribute('aria-selected',!g);
+  document.title = g ? 'Grajaú 2026 – Votação para Deputado Estadual' : 'Ricardo Seidel em Grajaú – Votação 2026';
+  if(!g && window._seidelMap) setTimeout(()=>window._seidelMap.invalidateSize(),50);
+}
+window.addEventListener('hashchange',()=>{if(location.hash==='#fontes')return; route();window.scrollTo(0,0)}); route();
+})();
+</script>
+</body>
+</html>
